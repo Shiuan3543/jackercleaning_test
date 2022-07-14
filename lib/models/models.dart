@@ -4,7 +4,7 @@ class Product {
   var quantity = 0;
   Product(this.name, this.price, this.quantity);
   int calculate() {
-    return price * quantity;
+    return this.price * this.quantity;
   }
 }
 

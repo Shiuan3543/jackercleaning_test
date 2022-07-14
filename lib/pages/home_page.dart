@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jackercleaning_test/StatelessWidget/next_button.dart';
-import 'package:jackercleaning_test/model/models.dart';
+import 'package:jackercleaning_test/pages/checkout_page.dart';
+import 'package:jackercleaning_test/stateless_widgets/next_button.dart';
+import 'package:jackercleaning_test/models/models.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,15 +9,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void initState() {
+    super.initState();
+  }
+
   List<Product> products = [
     Product('分離式冷氣機 (室內機)', 2500, 0),
     Product('分離式冷氣機 (室內機+室外機)', 3000, 0),
     Product('窗型冷氣機 (三期以下)', 3500, 0),
     Product('窗型冷氣機 (三期以上)', 4000, 0),
     Product('分離式冷氣機 (室內機)', 3200, 0),
-    Product('分離式冷氣機 (室內機+室外機)', 3500, 0)
+    Product('分離式冷氣機 (室內機+室外機)', 3500, 0),
+    Product('', 0, 0),
   ];
-  var id = 0;
+  var id = 6;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +47,7 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.only(left: 10.0, right: 10.0),
             height: 570,
             child: ListView.builder(
-                itemCount: products.length,
+                itemCount: products.length - 1,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     tileColor: Color.fromARGB(200, 217, 217, 217),
@@ -68,7 +74,14 @@ class _HomePageState extends State<HomePage> {
                             iconSize: 25.0,
                             onPressed: () {
                               setState(() {
-                                products[index].quantity--;
+                                if (products[index].quantity > 0) {
+                                  products[index].quantity--;
+                                  if (products[index].quantity == 0) {
+                                    id = 6;
+                                  }
+                                } else {
+                                  Null;
+                                }
                               });
                             },
                           ),
@@ -87,8 +100,15 @@ class _HomePageState extends State<HomePage> {
                             iconSize: 25.0,
                             onPressed: () {
                               setState(() {
-                                id = index;
-                                products[index].quantity++;
+                                if (id == 6) {
+                                  id = index;
+                                  products[index].quantity++;
+                                } else if (id == index &&
+                                    products[index].quantity < 10) {
+                                  products[index].quantity++;
+                                } else {
+                                  Null;
+                                }
                               });
                             },
                           ),
@@ -98,7 +118,25 @@ class _HomePageState extends State<HomePage> {
                   );
                 }),
           ),
-          NextButton(products[id]),
+          NextButton(
+              product: products[id],
+              onPressed: products[id].quantity > 0
+                  ? () async {
+                      final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) =>
+                                  CheckoutPage(products: products[id]))));
+
+                      if (result != 1) {
+                        products.forEach((element) {
+                          element.quantity = 0;
+                        });
+
+                        setState(() {});
+                      }
+                    }
+                  : null),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jackercleaning_test/page/homepage.dart';
+import 'package:jackercleaning_test/pages/checkout_page.dart';
+import 'package:jackercleaning_test/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
             color: Color.fromRGBO(54, 187, 217, 0.8),
           )),
       home: HomePage(),
+      routes: <String, WidgetBuilder>{
+        '/homepage': (BuildContext context) => HomePage(),
+      },
     );
   }
 }

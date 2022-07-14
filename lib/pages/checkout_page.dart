@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:jackercleaning_test/StatelessWidget/checkout_button.dart';
-import 'package:jackercleaning_test/StatelessWidget/next_button.dart';
-import 'package:jackercleaning_test/model/models.dart';
+import 'package:jackercleaning_test/stateless_widgets/checkout_button.dart';
+import 'package:jackercleaning_test/stateless_widgets/next_button.dart';
+import 'package:jackercleaning_test/models/models.dart';
 
 class CheckoutPage extends StatelessWidget {
-  var products;
-  CheckoutPage(products, {Key? key}) : super(key: key) {
-    products = products;
-  }
-
+  CheckoutPage({Key? key, required this.products}) : super(key: key);
+  final Product products;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(onPressed: () {
+          Navigator.maybePop(context, 1);
+        }),
         centerTitle: true,
         title: Text(
           '確認價格',
@@ -39,11 +39,11 @@ class CheckoutPage extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
               subtitle: Text(
-                '    A strong animal',
+                products.name + " x " + products.quantity.toString(),
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.left,
               ),
-              //trailing: Text(products.calculate()),
+              trailing: Text(products.calculate().toString()),
             ),
             decoration: BoxDecoration(
               color: const Color(0xff7c94b6),

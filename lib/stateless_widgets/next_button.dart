@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:jackercleaning_test/models/models.dart';
+import 'package:jackercleaning_test/pages/checkout_page.dart';
 
-class CheckoutButton extends StatelessWidget {
-  const CheckoutButton({Key? key}) : super(key: key);
+class NextButton extends StatelessWidget {
+  NextButton({Key? key, required this.product, this.onPressed})
+      : super(key: key);
 
+  final VoidCallback? onPressed;
+  // {
+  // for (var i = 0; i < products.length; i++) {
+  //   sum = sum + products[i].quantity * products[i].price;
+  // }
+  // }
+  final Product product;
   @override
   Widget build(BuildContext context) {
     final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
@@ -19,8 +29,8 @@ class CheckoutButton extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         child: ElevatedButton(
           style: raisedButtonStyle,
-          onPressed: () {},
-          child: Text('結帳', style: TextStyle(fontSize: 25)),
+          onPressed: onPressed,
+          child: Text('下一步', style: TextStyle(fontSize: 25)),
         ));
   }
 }
